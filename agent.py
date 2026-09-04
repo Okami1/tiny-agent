@@ -4,7 +4,7 @@ import anthropic
 from dotenv import load_dotenv
 
 
-from tools import tools, list_dir
+from tools import tools, list_dir, read_file, fetch_url
 
 load_dotenv()
 
@@ -40,6 +40,12 @@ def agent_loop():
             if tool_use.name == "list_dir":
                 path = tool_use.input.get("path")
                 result = list_dir(path)
+            elif tool_use.name == "read_file":
+                path = tool_use.input.get("path")
+                result = read_file(path)
+            elif tool_use.name == "fetch_url":
+                url = tool_use.input.get("url")
+                result = fetch_url(url)
                 
             messages += [
                 {"role": "assistant", "content": [tool_use]},
